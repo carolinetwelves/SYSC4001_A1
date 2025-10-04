@@ -8,13 +8,11 @@
 #include "interrupts.hpp"
 
 int main(int argc, char** argv) {
-
     //vectors is a C++ std::vector of strings that contain the address of the ISR
     //delays  is a C++ std::vector of ints that contain the delays of each device
     //the index of these elemens is the device number, starting from 0
     auto [vectors, delays] = parse_args(argc, argv);
     std::ifstream input_file(argv[1]);
-
     std::string trace;      //!< string to store single line of trace file
     std::string execution;  //!< string to accumulate the execution output
 
@@ -50,7 +48,7 @@ int main(int argc, char** argv) {
             execution += pair.first; //total excecution time
             currentTime += pair.second; //current time
 
-            //excecute ISR
+            //execute ISR
             /*
                 Depending on the interrupt number, calculate where in memory the ISR start address is (time: negligible; use a duration of 1 ms) 
                 Get ISR address from vector table (time: negligible; use a duration of 1 ms) Execute ISR body. 
@@ -61,7 +59,7 @@ int main(int argc, char** argv) {
             execution += std::to_string(currentTime) + ", " + std::to_string(device_driver_time) + ", call device driver\n";
             currentTime += device_driver_time;
 
-            //excecute ISR
+            //execute ISR
             execution += std::to_string(currentTime) + ", " + std::to_string(isr_duration) + ", ISR activity\n";
             currentTime += isr_duration;   
         }
@@ -88,7 +86,6 @@ int main(int argc, char** argv) {
     }
 
     input_file.close();
-
     write_output(execution);
 
     return 0;
